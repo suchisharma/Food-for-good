@@ -1,0 +1,83 @@
+<!-- <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Modal Editor</h3>
+   </div>
+   <div class="modal-body" id="modal-body">
+   
+        <div class="form-group"> 
+             <label for="first_name" class="col-md-4 control-label">First Name</label> 
+             <div class="col-md-8"> 
+              <input type="text"  ng-model="first_name" value="" class="form-control" /> 
+             </div> 
+         </div>
+         
+        <div class="form-group"> 
+             <label for="first_name" class="col-md-4 control-label">Last Name</label> 
+             <div class="col-md-8"> 
+              <input type="text"  ng-model="last_name" value="" class="form-control" /> 
+             </div> 
+         </div> 
+         
+        <div class="form-group"> 
+             <label for="first_name" class="col-md-4 control-label">Address</label> 
+             <div class="col-md-8"> 
+              <input type="text"  ng-model="address" value="" class="form-control"  /> 
+             </div> 
+         </div> 
+       
+       <br><br>
+       <div class="form-group">
+           <div class="col-sm-offset-4 col-sm-8">
+               <input type="hidden" ng-model="id">
+               <button type="submit" class="btn btn-success">Save</button>
+           </div>
+       </div>
+   
+   
+   </div>
+   <div class="modal-footer">
+    
+    <button class="btn btn-warning" type="button" ng-click="cancelModal()">Cancel</button>
+   
+   </div> -->
+
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title">Add Items</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <form name="form.menuForm" role="form">
+          
+
+
+            <div class="form-group">
+              <label class="form-text text-muted" >Item Name</label>
+             <input type="text" class="form-control" placeholder="Itemname" id="itemName" ng-model="itemName" required/>
+               <label class="form-text text-muted"> Item Price</label>
+             <input type="number" class="form-control" placeholder="ItemPrice" id="itemPrice" ng-model="itemPrice" required/>
+               <label class="form-text text-muted"> GST</label>
+             <input type="number" class="form-control" placeholder="GST" id="gst" ng-model="gst" required/>
+              <label class="form-text text-muted">VAT</label>
+             <input type="number" class="form-control" placeholder="Vat" id="vat" ng-model="vat" required/>
+              <label class="form-text text-muted">Service Charge</label>
+             <input type="number" class="form-control" placeholder="service Charge" id="serviceCharge" ng-model="serviceCharge" required/>
+             <label class="form-text text-muted">description</label>
+             <input type="text" class="form-control" placeholder="description" id="description" ng-model="description" required/>
+             <label class="form-text text-muted" >Category</label>
+             <select ng-options="option as option.name for option in categoryData" ng-model="selected" ng-change="categoryDataUpadte(selected)"></select>
+             <label class="form-text text-muted">SubCategory</label>
+             <select ng-disabled="getsubCategoryButton"  ng-options="items as items.name for items in subCategoryData | filter: myfilter" ng-model="selectedItem"></select>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary  bi bi-plus" data-dismiss="modal">Category</button>
+          <button type="button" class="btn btn-secondary bi bi-plus" data-dismiss="modal">SubCategory</button> -->
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="cancelModal()">Close</button>
+          <button type="button" class="btn btn-primary" data-ng-click="ok(1,itemName,itemPrice, gst, vat, serviceCharge, selected, selectedItem,description)">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,25 @@
+
+<section>
+    <div class="container">
+      <div class="user signinBx">
+        <div class="imgBx"><img ng-src="../../../client/image/Hunger.jpg" alt="image alt" /></div>
+        <div class="formBx">
+          
+            <form name="form" method="post">
+            <h2>Register</h2>
+            <input type="text" class="Name" id="Name" ng-model="Name" placeholder="Name" />
+            <input type="email" class="userName" id="userName" ng-model="userName" placeholder="username" />
+            <input type="password" class="password" ng-model="password" placeholder="Password" />
+            <button type="button" class="btn btn-outline-success" value="send" ng-click="submitInfo(Name, userName, password)"> Register </button>
+            <p class="signup">
+              Already have an account ?
+              <button type="button" ng-click="switchLogin()"  class="btn btn-outline-dark">Sign In</button>
+            </p>
+            <div ng-if="loading" style="display: flex; align-items: center; justify-content: center;">
+              <img ng-src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif">
+           </div>
+          </form>
+        </div>
+      </div>
+      </div>
+  </section>

@@ -1,0 +1,237 @@
+<br>
+ 
+<h1 class="text-center Reportheader hederdesign">METRIX </h2>
+<br>
+<div class=" display: flex-4;  flex-wrap: wrap;  justify-content: space-between;  flex: 30 30 30%;
+;
+box-sizing: border-box;
+margin: 1rem .25em; text-center">
+  <button class="btn btn-primary btn-lg" data-target="#reportModal" data-toggle="modal" ng-click="food()" style="margin-top: 20px;"> Most Selling items </button>&nbsp;
+  <button class="btn btn-primary btn-lg" data-target="#reportModal" data-toggle="modal" ng-click="leastfood()" style="margin-top: 20px;"> Least Selling items </button>&nbsp;
+<button class="btn btn-primary btn-lg" data-target="#customerReportModal" data-toggle="modal" ng-click="customer()" style="margin-top: 20px;">Most visited customer</button>&nbsp;
+<button class="btn btn-primary btn-lg" data-target="#customerReportModal" data-toggle="modal" ng-click="leastcustomer()" style="margin-top: 20px;">least visited customer</button>&nbsp;
+
+
+<button class="btn btn-primary btn-lg" data-target="#happyDayModal" data-toggle="modal" ng-click="happyDay()" style="margin-top: 20px;">Happy Day</button>&nbsp;
+
+<button class="btn btn-primary btn-lg" data-target="#reportModal" data-toggle="modal" ng-click="totalSales()" style="margin-top: 20px;">Total Sales</button>&nbsp;
+
+<button class="btn btn-primary btn-lg" data-target="#reportModal" data-toggle="modal" ng-click="totalCustomer()" style="margin-top: 20px;"> Total customer</button>&nbsp;
+
+<button class=" btn btn-primary btn-lg " data-target="#reportModal" data-toggle="modal" ng-click="taxWiseItem()" style="margin-top: 20px;">Tax on Items</button>&nbsp;
+<button class="btn btn-primary btn-lg " data-target="#BillModal" data-toggle="modal" ng-click="billDetails()" style="margin-top: 20px;"> Bill details<span>(add date if loading)</span> </button>&nbsp;
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="reportModal">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header design">
+          <h5 class="modal-title">{{Report}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clear()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="d-flex justify-content-end ">
+          <span>from</span>
+          <input type="date" ng-model="fromDate">
+          <span>to</span>
+          <input type="date" ng-model="toDate">
+          <button ng-click="reportModal(fromDate, toDate)">Search</button>
+        </div>
+        
+        <div class="modal-body">
+         
+          <table id="report"  class="modal-body">
+            <tr>
+              <th> Serial Number</th>
+              <th>Name</th>
+              <th>{{titlehead}}</th>
+              
+          </tr>
+          
+            
+          
+          <tbody ng-repeat="items in response.data">
+            <div ng-if="loading" style="display: flex; align-items: center; justify-content: center;">
+              
+              <img ng-src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif"> 
+            </div >
+            <tr>
+              <td>{{$index +1 }} </td>
+              <td>{{items._id}}</td>
+             
+              <td>   {{items.totalsale}}</td>
+            </tr>
+          </tbody>  
+  
+          </table>
+        </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"  data-toggle="modal" data-dismiss="modal" ng-click="clear()">close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  
+<div class="modal fade" tabindex="-1" role="dialog" id="customerReportModal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header design">
+        <h5 class="modal-title">{{Report}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clear()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="d-flex justify-content-end ">
+        <span>from</span>
+        <input type="date" ng-model="fromDate">
+        <span>to</span>
+        <input type="date" ng-model="toDate">
+        <button ng-click="customerReportModal(fromDate, toDate)">Search</button>
+      </div>
+      <div class="modal-body">
+        
+        <table id="report"  class="modal-body">
+          <tr>
+            <th> Serial Number</th>
+            <th>{{tableHead2}}</th>
+            <th>{{tableHead}}</th>
+          
+        </tr>
+        
+        <tbody ng-repeat="items in response.data">
+          <div ng-if="loading" style="display: flex; align-items: center; justify-content: center;">
+           
+            <img ng-src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif"> </div>
+          <tr>
+            <td>{{$index + 1}}</td>
+            <td>{{items._id}}</td>
+            <td> {{items.name[0]}}</td>
+          
+          </tr>
+        </tbody>  
+
+        </table>
+      </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"  data-toggle="modal" data-dismiss="modal" ng-click="clear()">close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="happyDayModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header design">
+        <h5 class="modal-title">{{Report}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clear()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="d-flex justify-content-end ">
+        <span>from</span>
+        <input type="date" ng-model="fromDate">
+        <span>to</span>
+        <input type="date" ng-model="toDate">
+        <button ng-click="searchDate(fromDate, toDate)">Search</button>
+      </div>
+      <div class="modal-body">
+       
+        <table id="report"  class="modal-body">
+          <tr>
+            <th> Serial Number</th>
+            <th>Date</th>
+            <th>Number of orders</th>
+           
+        </tr>
+        
+        <tbody ng-repeat="items in response.data">
+          <div ng-if="loading" style="display: flex; align-items: center; justify-content: center;">
+           
+            <img ng-src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif"> </div>
+          <tr>
+            <td>{{$index + 1}}</td>
+            <td>{{items._id.newFieldName}}</td>
+            <td>{{items.viewCount}}</td>
+            
+          </tr>
+        </tbody>  
+
+        </table>
+      </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"  data-toggle="modal" data-dismiss="modal" ng-click="clear()">close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+<div class="modal fade" tabindex="-1" role="dialog" id="BillModal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header design">
+        <h5 class="modal-title">Bill details </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clear()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="d-flex justify-content-end ">
+        <span>from</span>
+        <input type="date" ng-model="fromDate">
+        <span>to</span>
+        <input type="date" ng-model="toDate">
+        <button ng-click="searchBillDetails(fromDate, toDate)">Search</button>
+      </div>
+      <div class="modal-body">
+        
+        <table id="report"  class="modal-body">
+          <tr>
+            <th> Serial Number</th>
+            <th>Bill id</th>
+            <th>number</th>
+            <th>total items</th>
+            <th> sub total</th>
+            <th>total tax</th>
+            <th>gross total</th>
+           
+        </tr>
+        
+        <tbody ng-repeat="items in response.data">
+          <div ng-if="loading" style="display: flex; align-items: center; justify-content: center;">
+            
+            <img ng-src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif"> </div>
+          <tr>
+            <td>{{$index + 1}}</td>
+            <td>{{items._id}}</td>
+            <td> {{items.name[0]}}</td>
+            <td>{{items.totalitems}}</td>
+            <td>{{items.subtotal}}</td>
+            <td>{{items.totaltax}}</td>
+            <td>{{items.grosstotal}}</td>
+            
+          </tr>
+        </tbody>  
+
+        </table>
+      </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"  data-toggle="modal" data-dismiss="modal" ng-click="clear()">close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<section>
+    <div class="container">
+      <div class="user signinBx">
+        <div class="imgBx"><img ng-src="../../../client/image/Hunger.jpg" alt="image alt" /></div>
+        <div class="formBx">
+            <form name="form" method="post">
+                <div ng-show="error" class="alert alert-danger">{{error}}</div>
+            <h2>Please provide otp.</h2>
+            <input type="text" class="Otp" id="Otp" ng-model="Otp" placeholder="enter Otp" />
+            <!-- <input type="email" class="userName" id="userName" ng-model="userName" placeholder="username" />
+            <input type="password" class="password" ng-model="password" placeholder="Password" /> -->
+            <button type="button" class="btn btn-outline-success" value="send" ng-click="submitOtplogin(Otp)"> Submit </button>
+            <!-- <button type="button" class="btn btn-outline-success" value="send" ng-click="sendotp()"> SendOtp </button> -->
+            
+            <p class="signup">
+              wanna go back to login ?
+              <button type="button" ng-click="login()"  class="btn btn-outline-dark">login </button>
+            </p>
+          </form>
+        </div>
+      </div>
+      </div>
+  </section>

@@ -1,0 +1,352 @@
+
+<div class="header">
+  <a class="logo" ui-sref="Home">HungerGame</a>
+  <div>
+
+    <a ui-sref=".History">
+      History
+    </a>
+    <a ui-sref=".Report">
+      Report
+    </a>
+    <a ui-sref=".Details">
+      Details
+    </a>
+    <div class="header-right">
+      <div class="btn btn-danger" ng-click="logOut()"> Logout</div>
+    </div>
+  </div>
+</div>
+
+<div ui-view>
+
+  <br>
+  <div class="Home Buttons text-center">
+    <button class="btn btn-primary btn-lg bi bi-list" data-target="#loginModal" data-toggle="modal" ng-click="menuCalled()"> Order</button>
+    <button class="btn btn-primary btn-lg bi bi-list" ng-click="bulkOrder()"  data-placement="bottom" title="It randomly create 1 Million data which may take ~5 min.(as it is a free server it may take even more time to execute (this button create data, post it to database as bulk and then display order in you screen) ) think before clicking. (this button was build to check scalibility) " ng-Disabled="disablebulk"> Bulk Order</button>
+      <!-- <button class="btn btn-primary  btn-lg" data-target="#addMenu" data-toggle="modal" ng-click="getCategory(); getsubCategory()" >Add Menu</button> -->
+
+  </div>
+  <br>
+  <uib-tabset></uib-tabset>
+  <br>
+
+  <!-- Order -->
+
+  <div class="d-flex justify-content-center">
+    <h2 ng-show="showIs">No orders</h2>
+  </div>
+
+  <div>
+    <div ng-if="loading" style="display: flex; align-items: center; justify-content: center;">
+              
+      <img ng-src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif"> </div>
+    <div style="margin-top: 10px; display:flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
+      <div class="card" ng-repeat="item in data ">
+        <div style="width: 18rem; display: flexbox; border-top-left-radius: 2% ;">
+
+          <div class="card-header" style="text-align: center;">{{item._id}}</div>
+          <div>
+            <h4 class="orderName" style="text-align: center;">{{item.user.customerName}}</h4>
+            <h5 style="text-align: center;"> Status is:</h5>
+            <div class="text-center">
+              <!-- <br> -->
+              <select style="text-align: center;" name="mySelect" id="mySelect" ng-options="option as option.name for option in status.availableOptions track by option.id"
+                ng-selected="status.selectedOption" ng-model="selectedstate" ng-change="update(selectedstate, item)">
+
+              </select>
+              <br>
+              <div>
+                <br>
+                <button class="btn btn-primary" ng-click="submitHistory(item)"> Submit</button>
+                <button class="btn btn-warning" data-target="#orderModal" data-toggle="modal"
+                  ng-click="orderId(item)">Show list</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-muted" style="text-align: center;"> {{item.user.totalBill | currency}}</div>
+      </div>
+    </div>
+  </div>
+
+  <nav aria-label="Page navigation example">
+    <div class="pagination justify-content-center">
+     <div>
+      <button class="btn btn-primary" ng-click="previous()" ng-disabled="itIsDisabled" tabindex="-1" style="margin-top: 10px;">Previous</button>
+  
+      <!-- &nbsp; -->
+      <span> <strong style="font-size: 20px;"></strong></span>
+      <button class="btn btn-primary" ng-disabled="nextDisabled" ng-click="next()" style="margin-top: 10px;">Next</button> </div>
+      
+      
+  
+    </div>
+  </nav>
+
+
+  <!-- ORDER MODAL -->
+  <div>
+
+    <div class="modal fade" tabindex="-1" id="orderModal" data-keyboard="false" data-backdrop="static">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header design">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+            <h4 class="modal-title ">Order</h4>
+          </div>
+          <div style="width: 18rem;">
+            <table id="customers" class="modal-body">
+              <tr>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Price</th>
+              </tr>
+
+              <tr ng-repeat="items in itms.items">
+                <td>{{items.itemName}}</td>
+                <td>{{items.itemquantity}}</td>
+                <td>{{items.itemPrice * items.itemquantity | currency}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <h5> Total bill= {{totalbill | currency}}</h5>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--  MENU MODAL -->
+  <div>
+    <div class="modal fade" tabindex="-1" id="loginModal" data-keyboard="false" data-backdrop="static">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header design">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+            <h4 class="modal-title ">Menu</h4>
+          </div>
+          <div  class="d-flex justify-content-start " >
+              <div ng-repeat="name in  getsubCategoryName">
+                <button class="btn btn-primary" ng-click="filter(name.name)">{{name.name}}</button>&nbsp;
+                <!-- <button class="btn btn-primary">helo</button> -->
+               
+              </div>
+        </div>
+        <div style="width: 18rem;">
+          <table id="customers" class="modal-body">
+              <tr>
+                <th>Name</th>
+                <th>description</th>
+                <th>Price</th>
+                <th>Qty</th>
+              </tr>
+              <tr ng-repeat="items in response[0]| filter: filterby">
+                <td>{{items.name}}</td>
+                <td>{{items.description}}</td>
+                <td>{{items.price | currency}}</td>
+                <td><button ng-click="increment(items)" ng-click="order(items)"
+                    class="quantity-right-plus btn btn-success btn-number">
+                    +</button> {{items.count}}
+                  <button class="quantity-left-minus btn btn-danger btn-number" ng-click="decrement(items)"> -
+                  </button>
+                </td>
+              </tr>
+            </table>
+
+          </div>
+        </div>
+        <div class="modal-content">
+          <table id="cartTable" class="modal-body">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>GST</th>
+                <th>Vat</th>
+                <th>serviceCharge</th>
+                <th>qty</th>
+                <th>price</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="items in newCart|unique:items.id">
+              <tr>
+                <td>{{items.name}}</td>
+                <td>{{items.tax.gst}}</td>
+                <td>{{items.tax.vat}}</td>
+                <td>{{items.tax.serviceCharge}}</td>
+                <td><button ng-click="increment(items)" class="quantity-right-plus btn btn-success btn-number">
+                    +</button> {{items.count}} <button ng-click="decrement(items)"
+                    class="quantity-left-minus btn btn-danger btn-number"> -</button></td>
+                <td>{{items.price * items.count | currency}}</td>
+                <td><button class="btn btn primary" ng-click="remove(items)"> Remove Item </button></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="modal-footer">
+            <h6> Total amount to be placed= {{bill}}</h6>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#cartModel"
+              data-toggle="modal">place Order</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+
+  <!--  CHECKOUT MODAL -->
+
+  <div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="cartModel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">CheckOut</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table>
+              <tr>
+                <th> Name </th>
+                <th> Description</th>
+                <th> Quantity </th>
+                <th> price</th>
+              </tr>
+              <tbody ng-repeat="items in newCart|unique:items.id">
+                <tr>
+                  <td>{{items.name}}</td>
+                  <td>{{ items.description}}</td>
+                  <td><button ng-click="increment(items)"> +</button> {{ items.count }} <button
+                      ng-click="decrement(items)"> -</button></td>
+                  <td>{{ items.price * items.count | currency}}</td>
+                  <td><button class="btn btn primary" ng-click="remove(items)"> Remove Item </button></td>
+                </tr>
+              </tbody>
+            </table>
+            </ul>
+          </div>
+          <input type="text" ng-model="customerName" class="customerName" placeholder="name" id="customerName" required>
+          <input type="number" ng-model="contactNumber" class="contactNumber" placeholder="Contact Number"
+            id="contactNumber" required>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#couponModel"
+            data-toggle="modal" ng-click="getcouponcode()" ng-disabled="disableCopun">Apply Coupons</button>
+
+
+            <button type="button" class="btn btn-secondary" data-target="#loginModal" data-toggle="modal"
+              data-dismiss="modal">Add more items</button>
+            <button type="button" class="btn btn-primary" ng-click="place(newCart, contactNumber, customerName)"
+              data-dismiss="modal">Pay {{bill}} and place</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- Coupon Modal -->
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="couponModel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Coupon</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table>
+            <tr>
+             <!-- <h2> Coupons</h2> -->
+            </tr>
+            <div style="display: flex; justify-content:center;">
+              <!-- <tbody ng-repeat="items in coupon"> -->
+                <!-- <tr> -->
+                  <!-- <td> coupons</td> -->
+                  <div class="card" style="width: 18rem; display: flex; justify-content: center;">
+                <ul class="list-group list-group-flush " ng-repeat="items in coupon">
+                  <li class="list-group-item">{{items.name}}</li>
+                    <span> Get instant Discount of {{items.Discount | currency}}</span><button class="btn btn-primary" ng-click="appliedCoupon(items)" data-dismiss="modal" data-target="#cartModel" data-toggle="modal" style="display:flexbox; justify-content:end"> Apply</button>
+                    <span></span>
+                </ul>
+              </div>
+            </div>
+            <!-- </tbody> -->
+          </table>
+          </ul>
+        </div>
+        
+        <div class="modal-footer">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ADD MENU MODAL -->
+  <div class="modal fade" id="addMenu" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog " role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Items</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form name="form.menuForm" role="form">
+          
+
+
+            <div class="form-group">
+              <label class="form-text text-muted" >Item Name</label>
+             <input type="text" class="form-control" placeholder="Itemname" id="itemName" ng-model="itemNam" required/>
+               <label class="form-text text-muted"> Item Price</label>
+             <input type="number" class="form-control" placeholder="ItemPrice" id="itemPrice" ng-model="itemPrice" required/>
+               <label class="form-text text-muted"> GST</label>
+             <input type="number" class="form-control" placeholder="GST" id="gst" ng-model="gst" required/>
+              <label class="form-text text-muted">VAT</label>
+             <input type="number" class="form-control" placeholder="Vat" id="vat" ng-model="vat" required/>
+              <label class="form-text text-muted">Service Charge</label>
+             <input type="number" class="form-control" placeholder="service Charge" id="serviceCharge" ng-model="serviceCharge" required/>
+             <label class="form-text text-muted" >Category</label>
+             <select ng-options="option as option.name for option in categoryData" ng-model="selected" ng-change="categoryDataUpadte(selected)"></select>
+             <label class="form-text text-muted">SubCategory</label>
+             <select ng-disabled="getsubCategoryButton"  ng-options="items as items.name for items in subCategoryData | filter: myfilter" ng-model="selectedItem"></select>
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary  bi bi-plus" data-dismiss="modal">Category</button>
+          <button type="button" class="btn btn-secondary bi bi-plus" data-dismiss="modal">SubCategory</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeModal(itemNam)">Close</button>
+          <button type="button" class="btn btn-primary" data-ng-click="itemSubmit(itemNam,itemPrice, gst, vat, serviceCharge, selected, selectedItem )">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Testing UI Modal -->
+ 
+
+</div>

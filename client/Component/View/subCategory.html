@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-title">Add Items</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancelModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <form name="form.menuForm" role="form">
+    
+
+
+      <div class="form-group">
+        <label class="form-text text-muted" >Item Name</label>
+       <input type="text" class="form-control" placeholder="Itemname" id="itemName" ng-model="itemName" required/>
+       <label class="form-text text-muted" >Category</label>
+             <select ng-options="option as option.name for option in categoryData" ng-model="selected" ng-change="categoryDataUpadte(selected)"></select>
+      </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="cancelModal()">Close</button>
+    <button type="button" class="btn btn-primary" data-ng-click="ok(3,itemName,selected)">Submit</button>
+  </div>
+</div>
+</div>
+</div>

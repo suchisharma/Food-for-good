@@ -1,0 +1,23 @@
+
+<section>
+    <div class="container">
+      <div class="user signinBx">
+        <div class="imgBx">
+          <img ng-src="../../../client/image/Hunger.jpg" alt="image alt" />
+        </div>
+        <div class="formBx">
+            <form name="form" role="form">
+              <div ng-show="error" class="alert alert-danger">{{error}}</div>
+            <h2>Sign In</h2>
+            <input type="text" class="userName" ng-model="userName" id="userName" placeholder="username" required />
+            <input type="password" class="password" ng-model="password" id="password" placeholder="password" />
+            <button class="btn btn-primary" type="submit" ng-click="autherationCheck(userName, password)">Login</button>
+            <p class="signup">
+              Don't have an account ?
+              <button  class="btn btn-primary" ng-click="siwtchRegister()" type="button"> Register</button>
+            </p>
+          </form>
+        </div>
+      </div>
+      </div>
+</section>

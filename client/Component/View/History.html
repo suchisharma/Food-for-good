@@ -1,0 +1,97 @@
+<div class="d-flex justify-content-center">
+  <h2 ng-show="isShow"> {{nodata}} </h2>
+</div>
+<div style="margin-top: 2cm; display:flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
+  <div class="card" ng-repeat="data in response">
+    <div style="width: 18rem; display: flexbox; border-top-left-radius: 2% ;">
+
+      <div class="card-header" style="text-align: center;">{{data._id}}</div>
+      <div>
+        <h4 class="orderName" style="text-align: center;">{{data.user.customerName}}</h4>
+        <h5 style="text-align: center;"> Status is:</h5>
+        <div class="text-center">
+          <select ng-disabled="isDisabled">
+            <option>Completed</option>
+          </select>
+          <br>
+          <div>
+            <br>
+            <button class="btn btn-primary" data-target="#orderModal" data-toggle="modal" ng-click="orderId(data)">Show
+              list</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-muted" style="text-align: center;"> {{data.user.totalBill | currency}}</div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div>
+
+  <div class="modal fade" id="orderModal" data-keyboard="false" data-backdrop="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header design">
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+          <h4 class="modal-title ">Order</h4>
+        </div>
+        <div style="width: 18rem;">
+          <table id="customers" class="modal-body">
+            <tr>
+              <th>Name</th>
+              <th>Qty</th>
+              <th>Price</th>
+            </tr>
+
+            <tr ng-repeat="items in itms.items">
+              <td>{{items.itemName}}</td>
+              <td>{{items.itemquantity}}</td>
+              <td>{{items.itemPrice * items.itemquantity | currency}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <h5> Total bill= {{totalbill | currency}}</h5>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<!-- <h2> HELLO</h2> -->
+<!-- <div class="text-center">
+ 
+  <pagination 
+  ng-model="currentPage"
+  total-items="totalItems"
+   
+  boundary-links="true">
+</pagination>
+</div> -->
+
+
+<nav aria-label="Page navigation example">
+  <div class="pagination justify-content-center">
+
+    <button class="btn btn-primary" ng-click="previous()" ng-disabled="itIsDisabled" tabindex="-1">Previous</button>
+
+    &nbsp;
+
+    <button class="btn btn-primary" ng-disabled="nextDisabled" ng-click="next()">Next</button>
+
+  </div>
+</nav>
